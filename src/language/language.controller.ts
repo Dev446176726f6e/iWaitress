@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LanguageService } from './language.service';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from "@nestjs/common";
+import { LanguageService } from "./language.service";
+import { CreateLanguageDto } from "./dto/create-language.dto";
+import { UpdateLanguageDto } from "./dto/update-language.dto";
 
-@Controller('language')
+@Controller("language")
 export class LanguageController {
   constructor(private readonly languageService: LanguageService) {}
 
@@ -17,18 +25,21 @@ export class LanguageController {
     return this.languageService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.languageService.findOne(+id);
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.languageService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLanguageDto: UpdateLanguageDto) {
-    return this.languageService.update(+id, updateLanguageDto);
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateLanguageDto: UpdateLanguageDto
+  ) {
+    return this.languageService.update(id, updateLanguageDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.languageService.remove(+id);
+  @Delete(":id")
+  remove(@Param("id") id: string) {
+    return this.languageService.remove(id);
   }
 }

@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateLanguageDto } from "./dto/create-language.dto";
+import { UpdateLanguageDto } from "./dto/update-language.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Language } from "./schema/language.schema";
+import { Model } from "mongoose";
 
 @Injectable()
 export class LanguageService {
-  create(createLanguageDto: CreateLanguageDto) {
-    return 'This action adds a new language';
+  constructor(
+    @InjectModel(Language.name) private languageModel: Model<Language>
+  ) {}
+
+  async create(createLanguageDto: CreateLanguageDto) {
+    const new_lang = await this.languageModel.create(createLanguageDto);
+    return new_lang;
   }
 
   findAll() {
-    return `This action returns all language`;
+    return this.languageModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} language`;
+  findOne(id: string) {
+    return this.languageModel.findOne({ _id: id });
   }
 
-  update(id: number, updateLanguageDto: UpdateLanguageDto) {
-    return `This action updates a #${id} language`;
+  async update(id: string, updateLanguageDto: UpdateLanguageDto) {
+    const updated_lang = await this.languageModel.findByIdAndUpdate(
+      id,
+      updateLanguageDto,
+      { returnDocument: "after" }
+    );
+    return updated_lang;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} language`;
+  remove(id: string) {
+    return this.languageModel.findByIdAndDelete(id);
   }
 }

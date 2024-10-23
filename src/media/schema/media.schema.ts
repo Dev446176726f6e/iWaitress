@@ -3,7 +3,7 @@ import { HydratedDocument } from "mongoose";
 
 export type MediaDocument = HydratedDocument<Media>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Media {
   @Prop({
     unique: true,
@@ -16,8 +16,17 @@ export class Media {
   @Prop({ required: true })
   file_name: string;
 
+  @Prop()
+  user_id: string; // someone who uploads. whether admin, customer, or staff.
+
   @Prop({ required: true })
   file_path: string;
+
+  @Prop()
+  related_table: string;
+
+  @Prop()
+  related_id: string; // nimage, mo'ljallanga bo'lsa o'sha model id-isi. misol, uchun admin_id yoki restoran_id.
 }
 
 export const MediaSchema = SchemaFactory.createForClass(Media);

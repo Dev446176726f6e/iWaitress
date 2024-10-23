@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateOrderDto } from "./dto/create-order.dto";
+import { UpdateOrderDto } from "./dto/update-order.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Order } from "./schema/order.schema";
+import { Model } from "mongoose";
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
+
+  async create(createOrderDto: CreateOrderDto) {
+    const new_order = await this.orderModel.create(createOrderDto);
+    return new_order;
   }
 
   findAll() {
-    return `This action returns all order`;
+    return this.orderModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  findOne(id: string) {
+    return this.orderModel.findOne({ _id: id });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
+    const updated_order = await this.orderModel.findByIdAndUpdate(
+      id,
+      updateOrderDto,
+      { returnDocument: "after" }
+    );
+    return updated_order;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  remove(id: string) {
+    return this.orderModel.findByIdAndDelete(id);
   }
 }

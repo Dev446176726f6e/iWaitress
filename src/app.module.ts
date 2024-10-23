@@ -20,9 +20,9 @@ import { LanguageModule } from "./language/language.module";
 import { QrCodeModule } from "./qr-code/qr-code.module";
 import { CategoryModule } from "./category/category.module";
 import { WorkDayModule } from "./work_day/work_day.module";
-import { DepartmentModule } from './department/department.module';
-import { RoleModule } from './role/role.module';
-import { StaffRoleModule } from './staff_role/staff_role.module';
+import { DepartmentModule } from "./department/department.module";
+import { RoleModule } from "./role/role.module";
+import { StaffRoleModule } from "./staff_role/staff_role.module";
 
 @Module({
   imports: [
